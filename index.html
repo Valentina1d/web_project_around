@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alrededor de los EE.UU.</title>
+  <link rel="stylesheet" href="pages/index.css">
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <h1 class="header__title">Alrededor <span class="header__subtitle">de los EE. UU.</span></h1>
+    </header>
+
+    <main class="content">
+      <section class="profile">
+        <img src="images/profile.jpg" alt="Jacques Cousteau" class="profile__avatar">
+        <div class="profile__info">
+          <h2 class="profile__name">Jacques Cousteau</h2>
+          <p class="profile__description">Explorador</p>
+        </div>
+        <button class="profile__edit-button">✏️</button>
+        <button class="profile__add-button">＋</button>
+        <button class="popup__close-button">✖</button>
+
+      </section>
+
+      <section class="gallery">
+        <article class="card">
+          <img src="images/yosemite.jpg" alt="Valle de Yosemite" class="card__image">
+          <div class="card__description">
+            <h2 class="card__title">Valle de Yosemite</h2>
+            <button class="card__like-button">♡</button>
+          </div>
+        </article>
+        <article class="card">
+          <img src="images/lagolouise.png" alt="Lago Louise" class="card__image">
+          <div class="card__description">
+            <h2 class="card__title">Lago Louise</h2>
+            <button class="card__like-button">♡</button>
+          </div>
+        </article>
+        <article class="card">
+          <img src="images/montanascalvas.png" alt="Montañas Calvas" class="card__image">
+          <div class="card__description">
+            <h2 class="card__title">Montañas Calvas</h2>
+            <button class="card__like-button">♡</button>
+          </div>
+        </article>
+        <article class="card">
+          <img src="images/latemar.png" alt="Latemar" class="card__image">
+          <div class="card__description">
+            <h2 class="card__title">Latemar</h2>
+            <button class="card__like-button">♡</button>
+          </div>
+        </article>
+        <article class="card">
+          <img src="images/vanoisnational.png" alt="Vanois National Park" class="card__image">
+          <div class="card__description">
+            <h2 class="card__title">Vanois National Park</h2>
+            <button class="card__like-button">♡</button>
+          </div>
+        </article>
+         <article class="card">
+          <img src="images/lagodibraies.png" alt="Lago di Braies" class="card__image">
+          <div class="card__description">
+            <h2 class="card__title">Lago di Braies</h2>
+            <button class="card__like-button">♡</button>
+          </div>
+        </article>
+
+        <!-- Puedes copiar este bloque para más tarjetas -->
+      </section>
+    </main>
+  </div>
+
+  <!-- Popup editar perfil -->
+  <div class="popup">
+    <div class="popup__container">
+      <button class="popup__close-button">✖</button>
+      <form class="popup__form" name="editProfileForm">
+        <h3 class="popup__title">Editar perfil</h3>
+        <input type="text" name="name" class="popup__input" placeholder="Nombre" required>
+        <input type="text" name="about" class="popup__input" placeholder="Acerca de mí" required>
+        <button type="submit" class="popup__save-button">Guardar</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="scripts/index.js"></script>
+</body>
+</html>
