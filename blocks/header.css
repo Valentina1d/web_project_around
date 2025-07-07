@@ -1,0 +1,14 @@
+.header {
+  padding: 20px 0;
+  border-bottom: 1px solid #333;
+}
+
+.header__title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.header__subtitle {
+  font-weight: normal;
+  font-size: 16px;
+}

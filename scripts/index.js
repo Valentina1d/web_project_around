@@ -1,3 +1,4 @@
+// 1. POPUP de editar perfil
 const popup = document.querySelector('.popup');
 const openButton = document.querySelector('.profile__edit-button');
 const closeButton = popup.querySelector('.popup__close-button');
@@ -25,73 +26,62 @@ formElement.addEventListener('submit', (evt) => {
   popup.classList.remove('popup_opened');
 });
 
+// 2. ARRAY de tarjetas iniciales
 const initialCards = [
-  {
-    name: "Valle de Yosemite",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/yosemite.jpg"
-  },
-  {
-    name: "Lago Louise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/lake-louise.jpg"
-  },
-  {
-    name: "Montañas Calvas",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/bald-mountains.jpg"
-  },
-  {
-    name: "Latemar",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/latemar.jpg"
-  },
-  {
-    name: "Parque Nacional de la Vanoise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/vanoise.jpg"
-  },
-  {
-    name: "Lago di Braies",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/lago.jpg"
-  }
+  { name: "Valle de Yosemite", link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/yosemite.jpg" },
+  { name: "Lago Louise", link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/lake-louise.jpg" },
+  { name: "Montañas Calvas", link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/bald-mountains.jpg" },
+  { name: "Latemar", link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/latemar.jpg" },
+  { name: "Parque Nacional de la Vanoise", link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/vanoise.jpg" },
+  { name: "Lago di Braies", link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/lago.jpg" }
 ];
 
-const imagePopup = document.querySelector('.popup_type_image');
-const popupImage = imagePopup.querySelector('.popup__image');
-const popupCaption = imagePopup.querySelector('.popup__caption');
-const imageCloseButton = imagePopup.querySelector('.popup__close-button');
-
-function openImagePopup(name, link) {
-  popupImage.src = link;
-  popupImage.alt = name;
-  popupCaption.textContent = name;
-  imagePopup.classList.add('popup_opened');
-}
-
-imageCloseButton.addEventListener('click', () => {
-  imagePopup.classList.remove('popup_opened');
-});
-
-const galleryContainer = document.querySelector('.gallery');
-
+// 3. Función para crear tarjeta sin innerHTML
 function createCard(cardData) {
   const cardElement = document.createElement('article');
   cardElement.classList.add('card');
-  cardElement.innerHTML = `
-    <img src="${cardData.link}" alt="${cardData.name}" class="card__image">
-    <button class="card__delete-button" type="button">
-      <img src="images/Trash.svg" alt="Eliminar" class="card__delete-icon" />
-    </button>
-    <div class="card__description">
-      <h2 class="card__title">${cardData.name}</h2>
-      <button class="card__like-button" type="button">
-        <img src="images/Group.svg" alt="Me gusta" class="card__like-icon" />
-      </button>
-    </div>
-  `;
 
-  const deleteButton = cardElement.querySelector('.card__delete-button');
+  const image = document.createElement('img');
+  image.classList.add('card__image');
+  image.src = cardData.link;
+  image.alt = cardData.name;
+
+  image.addEventListener('click', () => {
+    openImagePopup(cardData.link, cardData.name);
+  });
+
+  const deleteButton = document.createElement('button');
+  deleteButton.classList.add('card__delete-button');
+  deleteButton.type = 'button';
+
+  const deleteIcon = document.createElement('img');
+  deleteIcon.classList.add('card__delete-icon');
+  deleteIcon.src = 'images/Trash.svg';
+  deleteIcon.alt = 'Eliminar';
+
+  deleteButton.append(deleteIcon);
   deleteButton.addEventListener('click', () => {
     cardElement.remove();
   });
 
-  const likeIcon = cardElement.querySelector('.card__like-icon');
+  const description = document.createElement('div');
+  description.classList.add('card__description');
+
+  const title = document.createElement('h2');
+  title.classList.add('card__title');
+  title.textContent = cardData.name;
+
+  const likeButton = document.createElement('button');
+  likeButton.classList.add('card__like-button');
+  likeButton.type = 'button';
+
+  const likeIcon = document.createElement('img');
+  likeIcon.classList.add('card__like-icon');
+  likeIcon.src = 'images/Group.svg';
+  likeIcon.alt = 'Me gusta';
+
+  likeButton.append(likeIcon);
+
   likeIcon.addEventListener('click', () => {
     const currentSrc = likeIcon.getAttribute('src');
     if (currentSrc.includes('Group.svg')) {
@@ -103,19 +93,20 @@ function createCard(cardData) {
     }
   });
 
-  const imageElement = cardElement.querySelector('.card__image');
-  imageElement.addEventListener('click', () => {
-    openImagePopup(cardData.name, cardData.link);
-  });
+  description.append(title, likeButton);
+  cardElement.append(image, deleteButton, description);
 
   return cardElement;
 }
 
+// 4. Mostrar tarjetas al cargar
+const galleryContainer = document.querySelector('.gallery');
 initialCards.forEach((cardData) => {
   const card = createCard(cardData);
   galleryContainer.append(card);
 });
 
+// 5. Formulario para añadir nueva tarjeta
 const addButton = document.querySelector('.profile__add-button');
 const addPopup = document.querySelector('.popup_type_add');
 const addCloseButton = addPopup.querySelector('.popup__close-button');
@@ -142,5 +133,23 @@ addForm.addEventListener('submit', (evt) => {
   galleryContainer.prepend(cardElement);
   addPopup.classList.remove('popup_opened');
 });
+
+// 6. Popup de imagen
+function openImagePopup(src, alt) {
+  const popupImage = document.querySelector('.popup_type_image');
+  const popupImg = popupImage.querySelector('.popup__image');
+  const popupCaption = popupImage.querySelector('.popup__caption');
+
+  popupImg.src = src;
+  popupImg.alt = alt;
+  popupCaption.textContent = alt;
+
+  popupImage.classList.add('popup_opened');
+}
+
+document.querySelector('.popup_type_image .popup__close-button').addEventListener('click', () => {
+  document.querySelector('.popup_type_image').classList.remove('popup_opened');
+});
+
 
 
