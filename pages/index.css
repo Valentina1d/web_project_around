@@ -1,29 +1,11 @@
 @import url("../vendor/normalize.css");
 @import url("../vendor/fonts.css");
+@import url("../blocks/page.css"); 
 @import url("../blocks/header.css");
 @import url("../blocks/profile.css");
 @import url("../blocks/gallery.css");
 @import url("../blocks/card.css");
 @import url("../blocks/popup.css");
-body {
-  margin: 0;
-  background-color: #000;
-  font-family: 'Inter', sans-serif;
-  color: #fff;
-}
-
-.page {
-  max-width: 880px;
-  margin: 0 auto;
-  padding: 0 19px;
-}
-
-@media screen and (min-width: 1280px) {
-  .page {
-    padding-left: 200px;
-    padding-right: 200px;
-  }
-}
 
 
 

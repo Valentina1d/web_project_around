@@ -60,7 +60,6 @@
   font-weight: bold;
 }
 
-/* Popup de imagen */
 .popup_type_image .popup__image-container {
   position: relative;
   max-width: 75vw;

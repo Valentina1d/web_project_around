@@ -1,4 +1,3 @@
-// 1. POPUP de editar perfil
 const popup = document.querySelector('.popup');
 const openButton = document.querySelector('.profile__edit-button');
 const closeButton = popup.querySelector('.popup__close-button');
@@ -26,7 +25,6 @@ formElement.addEventListener('submit', (evt) => {
   popup.classList.remove('popup_opened');
 });
 
-// 2. ARRAY de tarjetas iniciales
 const initialCards = [
   { name: "Valle de Yosemite", link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/yosemite.jpg" },
   { name: "Lago Louise", link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/lake-louise.jpg" },
@@ -35,8 +33,6 @@ const initialCards = [
   { name: "Parque Nacional de la Vanoise", link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/vanoise.jpg" },
   { name: "Lago di Braies", link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/lago.jpg" }
 ];
-
-// 3. Función para crear tarjeta sin innerHTML
 function createCard(cardData) {
   const cardElement = document.createElement('article');
   cardElement.classList.add('card');
@@ -98,15 +94,12 @@ function createCard(cardData) {
 
   return cardElement;
 }
-
-// 4. Mostrar tarjetas al cargar
 const galleryContainer = document.querySelector('.gallery');
 initialCards.forEach((cardData) => {
   const card = createCard(cardData);
   galleryContainer.append(card);
 });
 
-// 5. Formulario para añadir nueva tarjeta
 const addButton = document.querySelector('.profile__add-button');
 const addPopup = document.querySelector('.popup_type_add');
 const addCloseButton = addPopup.querySelector('.popup__close-button');
@@ -134,7 +127,6 @@ addForm.addEventListener('submit', (evt) => {
   addPopup.classList.remove('popup_opened');
 });
 
-// 6. Popup de imagen
 function openImagePopup(src, alt) {
   const popupImage = document.querySelector('.popup_type_image');
   const popupImg = popupImage.querySelector('.popup__image');
