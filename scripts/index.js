@@ -142,6 +142,32 @@ function openImagePopup(src, alt) {
 document.querySelector('.popup_type_image .popup__close-button').addEventListener('click', () => {
   document.querySelector('.popup_type_image').classList.remove('popup_opened');
 });
+import { enableValidation } from './validate.js';
+
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+});
+document.querySelectorAll('.popup').forEach((popup) => {
+  popup.addEventListener('mousedown', (event) => {
+    if (event.target === popup) {
+      popup.classList.remove('popup_opened');
+    }
+  });
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    if (openedPopup) {
+      openedPopup.classList.remove('popup_opened');
+    }
+  }
+});
+
 
 
 

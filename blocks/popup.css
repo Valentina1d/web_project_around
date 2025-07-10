@@ -78,3 +78,25 @@
   color: white;
   margin-top: 10px;
 }
+.popup__input_type_error {
+  border-color: red;
+}
+
+.popup__error {
+  font-size: 12px;
+  color: red;
+  margin-top: -15px;
+  margin-bottom: 10px;
+  display: none;
+}
+
+.popup__error_visible {
+  display: block;
+}
+
+.popup__save-button_disabled {
+  background-color: #e0e0e0;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
