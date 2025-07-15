@@ -99,4 +99,23 @@
   color: #aaa;
   cursor: not-allowed;
 }
+@media screen and (max-width: 544px) {
+  .popup__container {
+    width: 282px;
+    padding: 25px 22px;
+  }
+
+  .popup__title {
+    font-size: 18px;
+  }
+
+  .popup__input {
+    font-size: 14px;
+  }
+
+  .popup__save-button {
+    font-size: 14px;
+  }
+}
+
 
