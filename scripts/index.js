@@ -1,3 +1,6 @@
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
+
 const popup = document.querySelector('.popup');
 const openButton = document.querySelector('.profile__edit-button');
 const closeButton = popup.querySelector('.popup__close-button');
@@ -33,72 +36,14 @@ const initialCards = [
   { name: "Parque Nacional de la Vanoise", link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/vanoise.jpg" },
   { name: "Lago di Braies", link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/lago.jpg" }
 ];
-function createCard(cardData) {
-  const cardElement = document.createElement('article');
-  cardElement.classList.add('card');
 
-  const image = document.createElement('img');
-  image.classList.add('card__image');
-  image.src = cardData.link;
-  image.alt = cardData.name;
-
-  image.addEventListener('click', () => {
-    openImagePopup(cardData.link, cardData.name);
-  });
-
-  const deleteButton = document.createElement('button');
-  deleteButton.classList.add('card__delete-button');
-  deleteButton.type = 'button';
-
-  const deleteIcon = document.createElement('img');
-  deleteIcon.classList.add('card__delete-icon');
-  deleteIcon.src = 'images/Trash.svg';
-  deleteIcon.alt = 'Eliminar';
-
-  deleteButton.append(deleteIcon);
-  deleteButton.addEventListener('click', () => {
-    cardElement.remove();
-  });
-
-  const description = document.createElement('div');
-  description.classList.add('card__description');
-
-  const title = document.createElement('h2');
-  title.classList.add('card__title');
-  title.textContent = cardData.name;
-
-  const likeButton = document.createElement('button');
-  likeButton.classList.add('card__like-button');
-  likeButton.type = 'button';
-
-  const likeIcon = document.createElement('img');
-  likeIcon.classList.add('card__like-icon');
-  likeIcon.src = 'images/Group.svg';
-  likeIcon.alt = 'Me gusta';
-
-  likeButton.append(likeIcon);
-
-  likeIcon.addEventListener('click', () => {
-    const currentSrc = likeIcon.getAttribute('src');
-    if (currentSrc.includes('Group.svg')) {
-      likeIcon.setAttribute('src', 'images/Union.png');
-      likeIcon.setAttribute('alt', 'Me gusta activado');
-    } else {
-      likeIcon.setAttribute('src', 'images/Group.svg');
-      likeIcon.setAttribute('alt', 'Me gusta');
-    }
-  });
-
-  description.append(title, likeButton);
-  cardElement.append(image, deleteButton, description);
-
-  return cardElement;
-}
 const galleryContainer = document.querySelector('.gallery');
 initialCards.forEach((cardData) => {
-  const card = createCard(cardData);
-  galleryContainer.append(card);
+  const card = new Card(cardData, '#card-template');
+  const cardElement = card.generateCard();
+  galleryContainer.append(cardElement);
 });
+
 
 const addButton = document.querySelector('.profile__add-button');
 const addPopup = document.querySelector('.popup_type_add');
@@ -122,7 +67,8 @@ addForm.addEventListener('submit', (evt) => {
     name: titleInput.value,
     link: linkInput.value
   };
-  const cardElement = createCard(newCard);
+const card = new Card(newCard, '#card-template');
+const cardElement = card.generateCard();
   galleryContainer.prepend(cardElement);
   addPopup.classList.remove('popup_opened');
 });
@@ -142,16 +88,22 @@ function openImagePopup(src, alt) {
 document.querySelector('.popup_type_image .popup__close-button').addEventListener('click', () => {
   document.querySelector('.popup_type_image').classList.remove('popup_opened');
 });
-import { enableValidation } from './validate.js';
 
-enableValidation({
+const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__save-button',
   inactiveButtonClass: 'popup__save-button_disabled',
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
+};
+
+const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
+formList.forEach((formElement) => {
+  const formValidator = new FormValidator(validationConfig, formElement);
+  formValidator.enableValidation();
 });
+
 document.querySelectorAll('.popup').forEach((popup) => {
   popup.addEventListener('mousedown', (event) => {
     if (event.target === popup) {
