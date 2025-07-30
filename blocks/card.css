@@ -51,5 +51,5 @@
 }
 
 .card__like-icon_active {
-  filter: invert(36%) sepia(82%) saturate(3081%) hue-rotate(325deg) brightness(92%) contrast(101%);
+  filter: grayscale(0%);
 }
