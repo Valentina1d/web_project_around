@@ -6,7 +6,7 @@ export default class PopupWithConfirmation extends Popup {
     this._form = this._popup.querySelector('.popup__submit-button');
   }
 
-  // Método para establecer la función que se ejecutará cuando se confirme
+  
   setSubmitAction(submitFunction) {
     this._handleSubmitCallback = submitFunction;
   }

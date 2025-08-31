@@ -1,4 +1,3 @@
-// scripts/components/Card.js
 export class Card {
   constructor(data, templateSelector, handleImageClick, handleLikeClick, handleDeleteClick, userId) {
     this._name = data.name;
@@ -37,15 +36,15 @@ export class Card {
   _updateLikeState() {
     const isLiked = this._isLikedByUser();
 
-    // contador
+    
     if (this._likeCount) this._likeCount.textContent = this._likes.length;
 
-    // clase activa (para CSS)
+    
     if (this._likeButton) {
       this._likeButton.classList.toggle('card__like-button_active', isLiked);
     }
 
-    // icono (cambia a negro con Union.png)
+    
     if (this._likeIcon) {
       this._likeIcon.src = isLiked ? 'images/Union.png' : 'images/Group.svg';
       this._likeIcon.alt = isLiked ? 'Quitar me gusta' : 'Dar me gusta';

@@ -34,23 +34,23 @@
   cursor: pointer;
   border-radius: 4px;
 }
-/* Contenedor para superponer el botón de edición */
+
 .profile__avatar-wrap {
   position: relative;
-  display: inline-block;    /* mantiene el tamaño del img existente */
+  display: inline-block;    
 }
 
-/* Asegura buen render del avatar (no pisa tus tamaños si ya los tienes) */
+
 .profile__avatar {
   display: block;
   border-radius: 50%;
   object-fit: cover;
 }
 
-/* Botón que aparece al pasar el mouse */
+
 .profile__avatar-edit {
   position: absolute;
-  inset: 0;                 /* top/right/bottom/left: 0 */
+  inset: 0;                 
   border: none;
   border-radius: 50%;
   background: rgba(0,0,0,.55) url("../../images/Lapiz.png")
@@ -60,7 +60,6 @@
   cursor: pointer;
 }
 
-/* Mostrar overlay al hover */
 .profile__avatar-wrap:hover .profile__avatar-edit {
   opacity: 1;
 }

@@ -12,8 +12,7 @@ const api = new Api({
   }
 });
 
-// -------------------- Elementos del DOM --------------------
-// Editar perfil (tu HTML usa .popup para editar)
+
 const editPopup = document.querySelector('.popup');
 const openButton = document.querySelector('.profile__edit-button');
 const closeButton = editPopup.querySelector('.popup__close-button');
@@ -26,10 +25,10 @@ const nameDisplay = document.querySelector('.profile__name');
 const jobDisplay  = document.querySelector('.profile__description');
 const avatarImage = document.querySelector('.profile__avatar');
 
-// Galería
+
 const galleryContainer = document.querySelector('.gallery');
 
-// Nuevo lugar
+
 const addButton = document.querySelector('.profile__add-button');
 const addPopup  = document.querySelector('.popup_type_add');
 const addCloseButton = addPopup.querySelector('.popup__close-button');
@@ -38,20 +37,20 @@ const titleInput = addForm.querySelector('input[name="title"]');
 const linkInput  = addForm.querySelector('input[name="image"]');
 const addSubmitBtn = addForm.querySelector('.popup__save-button');
 
-// Imagen ampliada
+
 const imagePopup = document.querySelector('.popup_type_image');
 const imagePopupClose = imagePopup.querySelector('.popup__close-button');
 const popupImg = imagePopup.querySelector('.popup__image');
 const popupCaption = imagePopup.querySelector('.popup__caption');
 
-// Confirmación de borrado
+
 const confirmPopup = document.querySelector('.popup_type_confirm');
 const confirmForm  = confirmPopup.querySelector('.popup__form');
 const confirmCloseBtn = confirmPopup.querySelector('.popup__close-button');
 const confirmSubmitBtn = confirmPopup.querySelector('.popup__save-button');
 
 let cardToDelete = null;
-// --- Avatar ---
+
 const avatarEditBtn   = document.querySelector('.profile__avatar-edit');
 const avatarPopup     = document.querySelector('.popup_type_avatar');
 const avatarCloseBtn  = avatarPopup.querySelector('.popup__close-button');
@@ -60,7 +59,7 @@ const avatarInput     = avatarForm.querySelector('input[name="avatar"]');
 const avatarSubmitBtn = avatarForm.querySelector('.popup__save-button');
 
 
-// -------------------- Utilidades de popups --------------------
+
 function openImagePopup(src, alt) {
   popupImg.src = src;
   popupImg.alt = alt;
@@ -72,7 +71,7 @@ function openConfirmPopup(payload) {
   if (payload && payload.id && payload.element) {
     cardToDelete = payload;
   }
-  // este form no tiene inputs → aseguramos botón habilitado
+ 
   confirmSubmitBtn.disabled = false;
   confirmSubmitBtn.classList.remove('popup__save-button_disabled');
   confirmPopup.classList.add('popup_opened');
@@ -83,26 +82,24 @@ function closeConfirmPopup() {
   cardToDelete = null;
 }
 
-// -------------------- Crear tarjeta --------------------
+
 function makeCard(cardData) {
   const card = new Card(
     cardData,
     '#card-template',
 
-    // 1) Abrir imagen
+   
     (link, name) => openImagePopup(link, name),
 
-    // 2) LIKE / UNLIKE (con UI optimista)
-// 2) LIKE / UNLIKE — robusto con UI optimista
+
 (cardInstance) => {
   const btn = cardInstance._likeButton;
   const id  = cardInstance._id;
   const wasLiked = cardInstance._isLikedByUser();
 
-  // snapshot del estado actual
+  
   const before = Array.isArray(cardInstance._likes) ? [...cardInstance._likes] : [];
 
-  // estado optimista (pinta negro y ajusta contador al instante)
   const optimistic = wasLiked
     ? before.filter(like => (typeof like === 'string' ? like : like && like._id) !== userId)
     : [...before, { _id: userId }];
@@ -114,7 +111,7 @@ function makeCard(cardData) {
 
   req
     .then(payload => {
-      // extrae likes de cualquier forma que venga; si no hay, mantenemos el optimista
+      
       const serverLikes =
         (payload && Array.isArray(payload.likes) && payload.likes) ||
         (payload && payload.data && Array.isArray(payload.data.likes) && payload.data.likes) ||
@@ -123,11 +120,11 @@ function makeCard(cardData) {
 
       if (serverLikes) {
         cardInstance.updateLikes(serverLikes);
-      } // si no, nos quedamos con el estado optimista
+      } 
     })
     .catch(err => {
       console.log('Error al dar like/unlike:', err);
-      // si hay error real, revertimos al estado anterior
+      
       cardInstance.updateLikes(before);
     })
     .finally(() => {
@@ -136,7 +133,7 @@ function makeCard(cardData) {
 },
 
 
-    // 3) DELETE
+   
     (cardId, cardElement) => openConfirmPopup({ id: cardId, element: cardElement }),
 
     userId
@@ -145,7 +142,6 @@ function makeCard(cardData) {
   return card.generateCard();
 }
 
-// -------------------- Cargar usuario y tarjetas --------------------
 api.getUserInfo()
   .then(userData => {
     userId = userData._id;
@@ -157,7 +153,7 @@ api.getUserInfo()
   .then(cards => {
     galleryContainer.innerHTML = '';
     cards.forEach(cardData => {
-      // fallback por si alguna tarjeta viene sin owner
+      
       if (!cardData.owner) cardData.owner = { _id: cardData.ownerId || userId || '' };
       const cardElement = makeCard(cardData);
       galleryContainer.append(cardElement);
@@ -165,7 +161,7 @@ api.getUserInfo()
   })
   .catch(err => console.log('Error al cargar usuario o tarjetas:', err));
 
-// -------------------- Editar perfil --------------------
+
 openButton.addEventListener('click', () => {
   nameInput.value = nameDisplay.textContent;
   jobInput.value  = jobDisplay.textContent;
@@ -190,14 +186,13 @@ formElement.addEventListener('submit', (evt) => {
     .catch(err => console.log('Error al actualizar perfil:', err));
 });
 
-// -------------------- FIX: habilitar botón Guardar en “Nuevo lugar” --------------------
 function syncAddSubmitState() {
   const valid = addForm.checkValidity();
   addSubmitBtn.disabled = !valid;
   addSubmitBtn.classList.toggle('popup__save-button_disabled', !valid);
 }
 
-// -------------------- Añadir nueva tarjeta --------------------
+
 addButton.addEventListener('click', () => {
   addForm.reset();
   syncAddSubmitState();
@@ -237,19 +232,19 @@ addForm.addEventListener('submit', (evt) => {
       syncAddSubmitState();
     });
 });
-// --- AVATAR: abrir popup ---
+
 avatarEditBtn.addEventListener('click', () => {
   avatarForm.reset();
-  syncAvatarSubmitState();            // deshabilita Guardar hasta que la URL sea válida
+  syncAvatarSubmitState();            
   avatarPopup.classList.add('popup_opened');
 });
 
-// --- AVATAR: cerrar ---
+
 avatarCloseBtn.addEventListener('click', () => {
   avatarPopup.classList.remove('popup_opened');
 });
 
-// --- AVATAR: validar (habilitar/deshabilitar Guardar) ---
+
 function syncAvatarSubmitState() {
   const valid = avatarForm.checkValidity();
   avatarSubmitBtn.disabled = !valid;
@@ -257,7 +252,7 @@ function syncAvatarSubmitState() {
 }
 avatarForm.addEventListener('input', syncAvatarSubmitState);
 
-// --- AVATAR: enviar PATCH ---
+
 avatarForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const url = avatarInput.value.trim();
@@ -268,7 +263,7 @@ avatarForm.addEventListener('submit', (e) => {
 
   api.updateAvatar({ avatar: url })
     .then(user => {
-      // actualiza la foto en la página
+     
       avatarImage.src = user.avatar;
       avatarPopup.classList.remove('popup_opened');
     })
@@ -280,12 +275,12 @@ avatarForm.addEventListener('submit', (e) => {
 });
 
 
-// -------------------- Popup imagen --------------------
+
 imagePopupClose.addEventListener('click', () => {
   imagePopup.classList.remove('popup_opened');
 });
 
-// -------------------- Popup de confirmación --------------------
+
 confirmForm.addEventListener('submit', (e) => {
   e.preventDefault();
   if (!cardToDelete) return;
@@ -311,7 +306,7 @@ confirmForm.addEventListener('submit', (e) => {
 
 confirmCloseBtn.addEventListener('click', closeConfirmPopup);
 
-// -------------------- Validación --------------------
+
 const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
@@ -321,7 +316,7 @@ const validationConfig = {
   errorClass: 'popup__error_visible'
 };
 
-// Solo formularios con inputs (omitimos confirmación)
+
 Array.from(document.querySelectorAll(validationConfig.formSelector)).forEach((form) => {
   const hasInputs = form.querySelectorAll(validationConfig.inputSelector).length > 0;
   if (!hasInputs) return;
@@ -329,7 +324,7 @@ Array.from(document.querySelectorAll(validationConfig.formSelector)).forEach((fo
   formValidator.enableValidation();
 });
 
-// -------------------- Cerrar popups con clic o Escape --------------------
+
 document.querySelectorAll('.popup').forEach((popup) => {
   popup.addEventListener('mousedown', (event) => {
     if (event.target === popup) popup.classList.remove('popup_opened');
